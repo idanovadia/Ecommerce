@@ -48,7 +48,10 @@ router.get("/find/:id", async (req , res ) => {
 
 router.get("/search/:searchValue", async (req , res ) => {
     try{
-        const products = await Product.find({"desc" : {$regex : req.params.searchValue}});
+        // const products = await Product.find({"desc" : /^req.params.searchValue$/i});
+        const products = await Product.find({"desc" : {
+            $regex : new RegExp(req.params.searchValue,"i")}});
+        console.log(products);
         res.status(200).json(products);
     } catch (err){
         res.status(500).json(err);

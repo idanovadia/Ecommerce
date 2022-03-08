@@ -1,4 +1,5 @@
 import {Card, CardContent, CardMedia, Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import "./productCard.css";
 
@@ -37,31 +38,24 @@ const Price = styled.h3`
 
 const ProductCard = ({item}) => {
     return (
-        // <Container>
-        //     <ImageContainer>
-        //         <ProductImg src={img}/>
-        //     </ImageContainer>
-        //     <InfoContainer>
-        //         <Title>{title}</Title>
-        //         <Price>{price}</Price>
-        //     </InfoContainer>
-        // </Container>
-        <Card className='card' sx={{ maxWidth: 120 }}>
-            <CardMedia 
-                className="cardMedia"
-                component="img"
-                image={item.img}
-                alt="product"
-            />
-            <CardContent className="cardContent">
-                <Typography className="typography" gutterBottom component="div">
-                {item.title}
-                </Typography>
-                <Typography className="typography" gutterBottom component="div">
-                $ {item.price}
-                </Typography>
-            </CardContent>
-        </Card>
+        <Link to={`/product/${item._id}`}>
+            <Card className='card' sx={{ maxWidth: 120 }}>
+                <CardMedia 
+                    className="cardMedia"
+                    component="img"
+                    image={item.img}
+                    alt="product"
+                />
+                <CardContent className="cardContent">
+                    <Typography className="typography" gutterBottom component="div">
+                    {item.title}
+                    </Typography>
+                    <Typography className="typography" gutterBottom component="div">
+                    $ {item.price}
+                    </Typography>
+                </CardContent>
+            </Card>
+        </Link>
   );
 }
 

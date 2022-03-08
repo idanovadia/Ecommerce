@@ -1,8 +1,8 @@
 .card{
     display: flex;
     flex-direction: column;
-    width: 240px;
-    height: 280px;
+    width: 280px;
+    height: 320px;
     margin: 30px;
     box-shadow: none !important;
     /* -webkit-box-shadow: 5px 4px 6px 3px #00000079 !important; 
@@ -13,7 +13,6 @@
     margin-top: 10px;
     height: 140px;
     object-fit:cover;
-    background: !important;
 }
 
 .cardContent{
@@ -32,6 +31,8 @@
 .typography{
     font-size: 20px !important;
     font-weight: bold !important;
-    height: 50px;
+    height: 65px;
     text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 10px;
 }
