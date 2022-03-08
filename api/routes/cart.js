@@ -1,10 +1,10 @@
 const { verifyTokenAndAuthorization, verifyTokenAndAdmin, verifyToken } = require("./verifyToken");
-const Cart = require("../models/Cart");
+const { createMyCart } = require("../factuality/cart");
 const router = require("express").Router();
 
-router.post("/",verifyToken,async(req, res) => {
-    const newCart = new Cart(req.body);
+router.post("/",async(req, res) => {
     try{
+        const newCart = await createMyCart(req.body.cart);
         const savedCart = await newCart.save();
         res.status(201).json({});
     } catch(err){

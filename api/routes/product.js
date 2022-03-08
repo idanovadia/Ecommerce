@@ -1,10 +1,8 @@
 const { verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
 const Product = require("../models/Product");
-// const { query } = require("express");
-
 const router = require("express").Router();
 
-router.post("/",verifyTokenAndAdmin,async(req, res) => {
+router.post("/",async(req, res) => {
     const newProduct = new Product(req.body);
     try{
         const savedProduct = await newProduct.save();
@@ -43,6 +41,15 @@ router.get("/find/:id", async (req , res ) => {
     try{
         const product = await Product.findById(req.params.id);
         res.status(200).json(product);
+    } catch (err){
+        res.status(500).json(err);
+    }
+});
+
+router.get("/search/:searchValue", async (req , res ) => {
+    try{
+        const products = await Product.find({"desc" : {$regex : req.params.searchValue}});
+        res.status(200).json(products);
     } catch (err){
         res.status(500).json(err);
     }

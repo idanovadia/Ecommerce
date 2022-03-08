@@ -141,7 +141,7 @@ const SummeryItemPrice = styled.span``;
 const Button = styled.button`
     width: 100%;
     padding: 10px;
-    background-color: black;
+    background-color: ${(props) => props.disabled ? "#555" : "black"};;
     color: white;
     font-weight: 600;
 `;
@@ -152,6 +152,7 @@ const Cart = () => {
 
     const [stripeToken, setStripeToken] = useState(null);
     const cart = useSelector(state => state.cart);
+    const user = useSelector(state => state.user.currentUser);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -162,12 +163,18 @@ const Cart = () => {
     useEffect(() => {
         const makePayment = async () => {
             try{
-                const res = await userRequest.post("/checkout/payment",{
+                const paymentRes = await userRequest.post("/checkout/payment",{
                     tokenId: stripeToken.id,
                     amount: cart.total * 100,
                 });
+                const savedCartRes = await userRequest.post("/carts",{
+                    cart: {
+                        userId: user._id,
+                        products: cart.products
+                    }
+                });
                 dispatch(paymentSucceed());
-                navigate('/succuss',{data:res.data});
+                navigate('/succuss',{data:paymentRes.data});
             }catch(err){}
         }
         stripeToken && cart.total > 0 && makePayment();
@@ -240,7 +247,7 @@ const Cart = () => {
                             token={onToken}
                             stripeKey={KEY}
                             >
-                            <Button>CHECKOUT NOW</Button>
+                            <Button disabled={cart.total <= 0} >CHECKOUT NOW</Button>
                         </StripeCheckout>
                     </Summery>
                 </Bottom>
