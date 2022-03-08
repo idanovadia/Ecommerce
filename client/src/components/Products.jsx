@@ -35,15 +35,16 @@ const Products = () => {
   const sort = useSelector(state => state.searchProducts.sort);
   const searchInputValue = useSelector(state => state.searchProducts.searchInputValue);
   const [products, setProducts] = useState(useSelector((state) => state.searchProducts.products));
+  const [showProducts, setShowProducts] = useState([]);
   const location = useLocation();
   const myLocation = location.pathname.split("/");
   const cat = myLocation[2];
   const dispatch = useDispatch();
+  const defaultsFilters = new Set(['Color','Size']);
 
 
   useEffect(() => {
     const getProducts = async () => {
-      console.log(searchInputValue);
       try{
         if(cat || !myLocation[1]){
           let res = await publicRequest.get(
@@ -51,10 +52,12 @@ const Products = () => {
           dispatch(initSearch(""));
           dispatch(addProducts(res.data));
           setProducts(res.data);
+          setShowProducts(res.data);
         } else if(searchInputValue){
           const res = await publicRequest.get(`/products/search/${searchInputValue}`);
           dispatch(addProducts(res.data));
           setProducts(res.data);
+          setShowProducts(res.data);
         }
       }catch(err){};
     };
@@ -62,29 +65,29 @@ const Products = () => {
   }, [cat,searchInputValue]);
 
   useEffect(() => {
-    filters && products.length > 0 && cat && 
-      setProducts(
-        products.filter((item) => 
-          Object.entries(filters).every(([key,value]) => 
-            item[key].includes(value)
-          )
+    filters && products.length > 0 &&
+    setShowProducts(
+      products.filter((item) => 
+        Object.entries(filters).every(([key,value]) => 
+          (item[key].includes(value) || defaultsFilters.has(value))
         )
-      );
-  }, [cat, filters]);
+      )
+    );
+  }, [filters]);
 
   useEffect(() => {
     if(sort === "newest"){
-      setProducts((prev) => 
-        [...prev].sort((a,b) => a.createdAt - b.createdAt)
+      setShowProducts((prev) => 
+        [...prev].sort((a,b) => -1*(new Date(a.createdAt) - new Date(b.createdAt)))
       );
     }
     else if (sort === "asc"){
-      setProducts((prev) => 
+      setShowProducts((prev) => 
         [...prev].sort((a,b) => a.price - b.price)
       );
     }
     else {
-      setProducts((prev) => 
+      setShowProducts((prev) => 
       [...prev].sort((a,b) => b.price - a.price)
       );
     }
@@ -95,8 +98,8 @@ const Products = () => {
       <InnerContainer>
         {
            myLocation[1]
-           ? products.map(item => (<ProductCard item={item} key={item._id} />))
-           : products.slice(0,3).map(item => (<ProductCard item={item} key={item._id} />))
+           ? showProducts.map(item => (<ProductCard item={item} key={item._id} />))
+           : showProducts.slice(0,3).map(item => (<ProductCard item={item} key={item._id} />))
         }
       </InnerContainer>
     </Container>

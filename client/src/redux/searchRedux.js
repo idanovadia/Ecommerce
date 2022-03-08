@@ -5,10 +5,7 @@ const searchSlice = createSlice({
     initialState: {
         searchInputValue: "",
         products: [],
-        filters: {
-            color: "black",
-            size: "M"
-        },
+        filters: {},
         sort: "newest",
     },
     reducers:{

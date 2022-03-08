@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import Announcement from '../components/Announcement';
@@ -9,6 +9,8 @@ import {mobile} from "../responsive";
 import { useLocation } from 'react-router-dom';
 import SearchBar from '../components/SearchProducts/SearchBar';
 import SearchCategory from '../components/SearchProducts/SearchFilters';
+import { useDispatch } from 'react-redux';
+import { addFillters } from '../redux/searchRedux';
   
 
 const Container = styled.div`
@@ -26,9 +28,8 @@ const ProductList = () => {
 
     const location = useLocation();
     const cat = location.pathname.split("/")[2];
-    // const [filters, setFilter] = useState({});
-    // const [sort, setSort] = useState("newest");
-    
+    const dispatch = useDispatch();
+    useEffect( () => () => dispatch(addFillters({}), [] ));
     
     return (
         <Container>

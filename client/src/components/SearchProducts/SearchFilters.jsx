@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import {mobile} from "../../responsive";
 import { addFillters, addSortVal } from "../../redux/searchRedux"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const FilterContainer = styled.div`
 display: flex;
@@ -40,12 +40,12 @@ const SearchCategory = () => {
 
     const handleFilters = (e) => {
         setFilter({...filters,[e.target.name]: e.target.value});
-        dispatch(addFillters(filters));
+        dispatch(addFillters({...filters,[e.target.name]: e.target.value}));
     };
 
     const handleSort = (e) => {
         setSort(e.target.value);
-        dispatch(addSortVal(sort));
+        dispatch(addSortVal(e.target.value));
     }
 
     return (
