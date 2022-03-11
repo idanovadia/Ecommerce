@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {mobile} from "../responsive"
 import { React, useState } from 'react';
-import { userRequest } from '../requestMethods';
+import { publicRequest, userRequest } from '../requestMethods';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../components/FormInput/FormInput';
 
@@ -145,17 +145,39 @@ const Register = () => {
           pattern: values.password,
           required: true,
         },
+        {
+          id: 7,
+          name: "city",
+          type: "text",
+          placeholder: "City",
+          errorMessage:
+            "City have to include only Letters",
+          label: "City",
+          required: true,
+        },
+        {
+          id: 8,
+          name: "street",
+          type: "text",
+          placeholder: "Street",
+          errorMessage:
+            "",
+          label: "Street",
+          required: true,
+        },
       ];
 
     const navigate = useNavigate();
 
     const createUser = async () => {
         try{
-            const res = await userRequest.post("/auth/register",{
+            const res = await publicRequest.post("/auth/register",{
                 values
             });
             navigate('/');
-        }catch(err){}
+        }catch(err){
+          console.log(err);
+        }
     }
 
     const handleSubmit = (e) => {

@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import {sliderItems} from "../data"
 import {mobile} from "../responsive"
- 
+import {Link} from "react-router-dom";
+
 const Container = styled.div`
     width:100%;
     height: 100vh;
@@ -104,7 +105,9 @@ const Slider = () => {
                     <InfoContainer>
                         <Title>{item.title}</Title>
                         <Desc>{item.desc}</Desc>
-                        <Button>Shop Now</Button>
+                        <Link to="/products" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                            <Button>Shop Now</Button>
+                        </Link>
                     </InfoContainer>
                 </Slide>
                 ))}

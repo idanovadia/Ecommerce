@@ -66,6 +66,7 @@ const getProductsByCategories = async (qCategories) => {
     return await Product.find({
         categories: {
             $in: [qCategories]
+            // $in: [qCategories]
         },
     });
 };

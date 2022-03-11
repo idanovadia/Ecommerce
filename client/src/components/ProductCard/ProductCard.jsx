@@ -38,7 +38,7 @@ const Price = styled.h3`
 
 const ProductCard = ({item}) => {
     return (
-        <Link to={`/product/${item._id}`}>
+        <Link style={{ color: 'inherit', textDecoration: 'inherit'}} to={`/product/${item._id}`}>
             <Card className='card' sx={{ maxWidth: 120 }}>
                 <CardMedia 
                     className="cardMedia"
@@ -47,10 +47,10 @@ const ProductCard = ({item}) => {
                     alt="product"
                 />
                 <CardContent className="cardContent">
-                    <Typography className="typography" gutterBottom component="div">
+                    <Typography className="typography typography_description" gutterBottom component="div">
                     {item.title}
                     </Typography>
-                    <Typography className="typography" gutterBottom component="div">
+                    <Typography className="typography typography_price" gutterBottom component="div">
                     $ {item.price}
                     </Typography>
                 </CardContent>

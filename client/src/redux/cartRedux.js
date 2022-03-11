@@ -6,6 +6,7 @@ const cartSlice = createSlice({
         products: [],
         quantity: 0,
         total: 0,
+        shipmentAddress: " ",
     },
     reducers:{
         addProduct: (state,action) => {
@@ -13,13 +14,16 @@ const cartSlice = createSlice({
             state.products.push(action.payload);
             state.total += action.payload.price * action.payload.quantity;
         },
+        addShipmentAddress: (state,action) => {
+            state.shipmentAddress = action.payload;
+        },
         paymentSucceed: (state) => {
             state.quantity = 0;
             state.products = [];
             state.total = 0;
-        }
+        },
     },
 });
 
-export const { addProduct, paymentSucceed } = cartSlice.actions;
+export const { addProduct, addShipmentAddress, paymentSucceed } = cartSlice.actions;
 export default cartSlice.reducer;

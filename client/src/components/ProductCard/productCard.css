@@ -1,17 +1,17 @@
 .card{
     display: flex;
     flex-direction: column;
-    width: 280px;
-    height: 320px;
-    margin: 30px;
+    width: 300px;
+    height: 520px;
+    margin: 15px;
     box-shadow: none !important;
     /* -webkit-box-shadow: 5px 4px 6px 3px #00000079 !important; 
     box-shadow: 5px 4px 6px 3px #0000007e !important; */
 }
 
 .cardMedia{
-    margin-top: 10px;
-    height: 140px;
+    /* margin-top: 10px; */
+    height: 400px;
     object-fit:cover;
 }
 
@@ -22,6 +22,7 @@
     align-items: center;
     width: 100%;
     margin-top: 20px;
+    background-color: rgb(163, 163, 163) !important;
 }
 
 .MuiCardContent-root{
@@ -29,10 +30,19 @@
 }
 
 .typography{
-    font-size: 20px !important;
+    font-size: 17px !important;
     font-weight: bold !important;
-    height: 65px;
     text-transform: uppercase;
     text-align: center;
     margin-bottom: 10px;
+    padding: 10px;
+    color: rgb(253, 253, 253);
+}
+
+.typography_description{
+    height: 30px;
+}
+
+.typography_price{
+    height: 20px;
 }

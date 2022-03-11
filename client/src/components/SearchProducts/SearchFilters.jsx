@@ -39,8 +39,9 @@ const SearchCategory = () => {
     const dispatch = useDispatch();
 
     const handleFilters = (e) => {
-        setFilter({...filters,[e.target.name]: e.target.value});
-        dispatch(addFillters({...filters,[e.target.name]: e.target.value}));
+        const filterVal = (e.target.value).toLowerCase();
+        setFilter({...filters,[e.target.name]: filterVal});
+        dispatch(addFillters({...filters,[e.target.name]: filterVal}));
     };
 
     const handleSort = (e) => {
@@ -59,12 +60,12 @@ const SearchCategory = () => {
                         <Option value={"Color"}>
                             Color
                         </Option>
-                        <Option>white</Option>
-                        <Option>black</Option>
-                        <Option>red</Option>
-                        <Option>blue</Option>
-                        <Option>yellow</Option>
-                        <Option>green</Option>
+                        <Option>WHITE</Option>
+                        <Option>BLACK</Option>
+                        <Option>RED</Option>
+                        <Option>BLUE</Option>
+                        <Option>YELLOW</Option>
+                        <Option>GREEN</Option>
                     </Select>
                     <Select  name='size' onChange={handleFilters}>
                         <Option value={"Size"}>

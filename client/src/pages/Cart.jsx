@@ -11,6 +11,8 @@ import {userRequest} from "../requestMethods";
 import { useNavigate } from "react-router-dom";
 import { paymentSucceed } from '../redux/cartRedux';
 import { useDispatch } from 'react-redux';
+import ModalEditShipmentAddress from '../components/ModalEditShipmentAddress';
+import { saveOrder } from '../redux/apiCalls';
 
 const KEY = process.env.REACT_APP_STRIPE;
 
@@ -62,6 +64,7 @@ const Info = styled.div`
 `;
 
 const Product = styled.div`
+    margin-bottom: 30px;
     display: flex;
     justify-content: space-between;
     ${mobile({flexDirection: "column"})}
@@ -72,6 +75,7 @@ const ProductDetail = styled.div`
 `;
 const Image = styled.img`
     width: 200px;
+    height: 240px;
 `;
 const Details = styled.div`
     padding: 20px;
@@ -137,7 +141,9 @@ const SummeryItem = styled.div`
 `;
 
 const SummeryItemText = styled.span``;
-const SummeryItemPrice = styled.span``;
+const SummeryItemPrice = styled.span`
+    margin-left: 10px;
+`;
 const Button = styled.button`
     width: 100%;
     padding: 10px;
@@ -151,8 +157,9 @@ const Button = styled.button`
 const Cart = () => {
 
     const [stripeToken, setStripeToken] = useState(null);
-    const cart = useSelector(state => state.cart);
-    const user = useSelector(state => state.user.currentUser);
+    const [cart,setCart] = useState(useSelector(state => state.cart));
+    const [user,setUser] = useState(useSelector(state => state.user.currentUser));
+    const shipmentAddress = useSelector(state => state.cart.shipmentAddress);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -167,18 +174,17 @@ const Cart = () => {
                     tokenId: stripeToken.id,
                     amount: cart.total * 100,
                 });
-                const savedCartRes = await userRequest.post("/carts",{
-                    cart: {
-                        userId: user._id,
-                        products: cart.products
-                    }
-                });
                 dispatch(paymentSucceed());
+                const savedCartRes = await saveOrder(user._id,cart,shipmentAddress);
+                console.log("done");
                 navigate('/succuss',{data:paymentRes.data});
-            }catch(err){}
+            }catch(err){
+                console.log(err);
+                throw new Error(err);
+            }
         }
         stripeToken && cart.total > 0 && makePayment();
-    }, [stripeToken, cart.total, navigate]);
+    }, [stripeToken]);
 
     return (
         <Container>
@@ -189,10 +195,10 @@ const Cart = () => {
                 <Top>
                     <TopButton>CONTINUE SHOPPING </TopButton>
                     <TopTexts>
-                        <TopText>Shopping Bag (2)</TopText>
-                        <TopText>Your Wishlist (0)</TopText>
+                        {user && <TopText>
+                            <ModalEditShipmentAddress></ModalEditShipmentAddress>
+                        </TopText>}
                     </TopTexts>
-                    <TopButton type="filled">CHECKOUT NOW </TopButton>
                 </Top>
                 <Bottom>
                     <Info>
@@ -202,7 +208,7 @@ const Cart = () => {
                                     <Image src={product.img}/>
                                     <Details>
                                         <ProductName><b>Product:</b> {product.title}</ProductName>
-                                        <ProductId><b>ID:</b> {product._id}</ProductId>
+                                        {/* <ProductId><b>ID:</b> {product._id}</ProductId> */}
                                         <ProductColor color={product.color}/>
                                         <ProductSize><b>Size:</b> {product.size}</ProductSize>
                                     </Details>
@@ -232,6 +238,10 @@ const Cart = () => {
                         <SummeryItem>
                             <SummeryItemText>Shipping Discount</SummeryItemText>
                             <SummeryItemPrice> $ -12 </SummeryItemPrice>
+                        </SummeryItem>
+                        <SummeryItem>
+                            <SummeryItemText>Address</SummeryItemText>
+                            <SummeryItemPrice> {user && shipmentAddress} </SummeryItemPrice>
                         </SummeryItem>
                         <SummeryItem type="total">
                             <SummeryItemText >Total</SummeryItemText>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {mobile} from "../responsive";
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../redux/apiCalls';
+import { addShipmentAddress } from '../redux/cartRedux';
 
 const MainImage = styled.div`
     /* width: 100vw;

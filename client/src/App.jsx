@@ -13,6 +13,7 @@ import Cart from "./pages/Cart";
 import Succuss from "./pages/Succuss";
 import { useSelector } from "react-redux";
 import ProductsCards from "./pages/ProductsCards";
+import UserDetails from "./pages/UserDetails";
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -28,6 +29,7 @@ const App = () => {
         {/* <Route path="/succuss" element={!user ? <Navigate to="/" /> : <Succuss/>}/> */}
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login/>}/>
         <Route path="/register" element={user ? <Navigate to="/" /> : <Register/>}/>
+        <Route path="/user" element={!user ? <Navigate to="/" /> : <UserDetails/>}/>
       </Routes>
     </Router>
   );

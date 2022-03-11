@@ -25,8 +25,8 @@ const InnerContainer =styled.div`
   flex-wrap: wrap;
   justify-content: space-evenly;
   width: 100%;
-  margin: 20px;
-  border-radius: 50px;
+  /* margin: 20px; */
+  /* border-radius: 50px; */
 `
 
 const Products = () => {
@@ -40,7 +40,7 @@ const Products = () => {
   const myLocation = location.pathname.split("/");
   const cat = myLocation[2];
   const dispatch = useDispatch();
-  const defaultsFilters = new Set(['Color','Size']);
+  const defaultsFilters = new Set(['color','size']);
 
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const Products = () => {
         {
            myLocation[1]
            ? showProducts.map(item => (<ProductCard item={item} key={item._id} />))
-           : showProducts.slice(0,3).map(item => (<ProductCard item={item} key={item._id} />))
+           : showProducts.slice(0,4).map(item => (<ProductCard item={item} key={item._id} />))
         }
       </InnerContainer>
     </Container>

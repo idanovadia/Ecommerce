@@ -1,11 +1,12 @@
-import { Badge } from '@material-ui/core';
+import { Badge, IconButton } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
-import { AccountCircle, Search, ShoppingCartOutlined } from '@material-ui/icons';
+import { AccountCircle, ExitToApp, Search, ShoppingCartOutlined } from '@material-ui/icons';
 import React from 'react';
 import styled from 'styled-components';
 import {mobile} from '../responsive';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logout, logoutFailure } from '../redux/userRedux';
 
 const Container = styled.div`
     height: 100px;
@@ -71,9 +72,16 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
-
+    const dispatch = useDispatch();
     const quantity = useSelector((state) => state.cart.quantity);
     const currentUser = useSelector((state) => state.user.currentUser);
+
+    const logOut = (e) => {
+        try{
+            dispatch(logout());
+        }catch(err){
+            dispatch(logoutFailure());
+        }    }
 
     return (
         <Container>
@@ -82,28 +90,38 @@ const Navbar = () => {
                     <Language>EN</Language>
                 </Left>
                 <Center>
-                    <Link to="/" style={{ textDecoration: 'none' }}>
-                        <Logo>
+                    <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                        <Logo style={{ fontSize: 60 }}>
                             E-Com
                         </Logo>
                     </Link>
                 </Center>
                 <Right>
                     {
-                        currentUser && <AccountCircle style={{ fontSize: 40 }}/>
+                        currentUser && 
+                        <>
+                            <Link to="/user" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                                <AccountCircle style={{ fontSize: 34 }}/>
+                            </Link>
+                            <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                            <IconButton  onClick={logOut}>
+                                <ExitToApp style={{ fontSize: 34 }}/>
+                            </IconButton>
+                            </Link>
+                        </>
                     }
                     {
                     !currentUser &&
                         <>
-                            <Link to="/register" style={{ textDecoration: 'none' }}>
-                                <MenuItem>Register</MenuItem>
+                            <Link to="/register" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                                <MenuItem >Register</MenuItem>
                             </Link>
-                            <Link to="/login" style={{ textDecoration: 'none' }}>
-                                <MenuItem>Sign In</MenuItem>
+                            <Link to="/login" style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                                <MenuItem >Sign In</MenuItem>
                             </Link>
                         </>
                     }
-                    <Link to="/cart" >
+                    <Link to="/cart" style={{ color: 'inherit', textDecoration: 'inherit'}}>
                         <MenuItem>
                             <Badge badgeContent={quantity} color='primary'>
                                 <ShoppingCartOutlined style={{ fontSize: 34 }}/>
