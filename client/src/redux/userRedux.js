@@ -25,11 +25,22 @@ const userSlice = createSlice({
             state.isFetching = false;
             state.error = true;
         },
+        updateLatestOrder: (state,action) => {
+            if(state.currentUser?.latestOrders?.length === 3 ){
+                state.currentUser.latestOrders.splice(2, 1)
+            }
+            state.currentUser?.latestOrders?.unshift(action.payload);
+            // state.currentUser && state.currentUser.latestOrders
+            // && state.currentUser.latestOrders.length === 3 
+            //     ? state.currentUser.latestOrders.splice(2, 1)
+            //     : null;
+            // state.currentUser.latestOrders.unshift(action.payload); 
+        },
     },
 });
 
 export const { 
     loginStart, loginSuccess, loginFailure,
-    logout, logoutFailure,
+    logout, logoutFailure,updateLatestOrder
 } = userSlice.actions;
 export default userSlice.reducer;

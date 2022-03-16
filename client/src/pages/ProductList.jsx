@@ -1,44 +1,32 @@
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import Announcement from '../components/Announcement';
-import Products from '../components/Products';
 import NewsLetter from '../components/NewsLetter';
 import Footer from '../components/Footer';
 import {mobile} from "../responsive";
-import { useLocation } from 'react-router-dom';
-import SearchBar from '../components/SearchProducts/SearchBar';
-import SearchCategory from '../components/SearchProducts/SearchFilters';
-import { useDispatch } from 'react-redux';
-import { addFillters } from '../redux/searchRedux';
+import { useSelector } from 'react-redux';
+import InnerProductList from '../components/InnerProductList';
+import Massage from "../components/Massage"
   
 
 const Container = styled.div`
 
 `;
 
-
-const Title = styled.h1`
-    margin: 20px;
-`;
-
-
-
 const ProductList = () => {
 
-    const location = useLocation();
-    const cat = location.pathname.split("/")[2];
-    const dispatch = useDispatch();
-    useEffect( () => () => dispatch(addFillters({}), [] ));
-    
+    const lenOfProducts = useSelector((state) => state.searchProducts.products.length);
+
     return (
         <Container>
             <Navbar></Navbar>
             <Announcement></Announcement>
-            {!cat && <SearchBar/>}
-            {cat && <Title>{cat}</Title>}
-            <SearchCategory/>
-            <Products />
+            {lenOfProducts > 0 
+                ?   <InnerProductList/>
+                :   <Massage
+                        massage={"No Product had found"}
+                        innerMassage={`Unfortunately, we cant find anything that match your search`}
+                    />}
             <NewsLetter/>
             <Footer/>
         </Container>

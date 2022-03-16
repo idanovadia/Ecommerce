@@ -53,7 +53,7 @@ const DetailsContainer = styled.div`
 `;
 
 const Detail = styled.span`
-    font-size: 20px;
+    font-size: 18px;
     margin: 10px 0px;
     display: flex;
     align-items: center;
@@ -84,10 +84,10 @@ function UserForm() {
                 </Profile>
                 <Menu>
                     <DetailsContainer>
-                        <Detail><Person style={{marginRight:"10px"}} />{user.firstName}</Detail>
-                        <Detail><PersonOutline style={{marginRight:"10px"}} />{user.lastName}</Detail>
-                        <Detail><Email style={{marginRight:"10px"}} />{user.email}</Detail>
-                        <Detail><LocationCity style={{marginRight:"10px"}} />{user.city} , {user.street}</Detail>
+                        <Detail><Person style={{marginRight:"10px"}} />{user.firstName.toUpperCase()}</Detail>
+                        <Detail><PersonOutline style={{marginRight:"10px"}} />{user.lastName.toUpperCase()}</Detail>
+                        <Detail><Email style={{marginRight:"10px"}} />{user.email.toUpperCase()}</Detail>
+                        <Detail><LocationCity style={{marginRight:"10px"}} />{user.city.toUpperCase()} , {user.street.toUpperCase()}</Detail>
                     </DetailsContainer>
                 </Menu>
             </Left>

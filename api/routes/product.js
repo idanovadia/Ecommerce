@@ -1,6 +1,7 @@
 const { verifyTokenAndAuthorization, verifyTokenAndAdmin } = require("./verifyToken");
 const Product = require("../models/Product");
 const router = require("express").Router();
+const { getOrderByID } = require("../factuality/product");
 
 router.post("/",async(req, res) => {
     const newProduct = new Product(req.body);
@@ -39,7 +40,7 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req , res ) => {
 
 router.get("/find/:id", async (req , res ) => {
     try{
-        const product = await Product.findById(req.params.id);
+        const product = await getOrderByID(req.params.id);
         res.status(200).json(product);
     } catch (err){
         res.status(500).json(err);

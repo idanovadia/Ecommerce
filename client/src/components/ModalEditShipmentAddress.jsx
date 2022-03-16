@@ -34,7 +34,7 @@ export default function ModalEditShipmentAddress() {
         EDIT SHIPMENT ADDRESS
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Edit Shipment Address</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Please insert your new shipment address for delivery

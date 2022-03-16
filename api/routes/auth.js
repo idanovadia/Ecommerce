@@ -2,6 +2,8 @@ const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
+const {getOrders} = require("../factuality/order");
+
 
 router.post("/register", async (req,res) => {
     const userVal = req.body.values;
@@ -48,8 +50,8 @@ router.post("/login", async(req,res) => {
           {expiresIn:"3d"}
         );
         const { password, ...others } = user._doc;
-
-        res.status(200).json({...others, accessToken});
+        const latestOrders = await getOrders(others._id, "latest");
+        res.status(200).json({...others, accessToken, latestOrders});
         return;
     } catch (err) {
         res.status(500).json(err);

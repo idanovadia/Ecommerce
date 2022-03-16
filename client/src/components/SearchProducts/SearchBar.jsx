@@ -1,11 +1,10 @@
 import { Input } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { addProducts, initSearch } from "../../redux/searchRedux";
-import { publicRequest } from '../../requestMethods';
+import { initSearch } from "../../redux/searchRedux";
 
 const SearchContainer = styled.div`
     width: 100%;
@@ -24,16 +23,6 @@ const SearchBar = () => {
     const dispatch = useDispatch();
     const search = () => {
         dispatch(initSearch(searchValue));
-        //getProduct();
-    }
-
-    const getProduct = async () => {
-        try{
-            const res = await publicRequest.get(`/products/search/${searchValue}`);
-            dispatch(addProducts(res.data));
-        }catch(err){
-            console.log(err);
-        }
     }
 
     return (

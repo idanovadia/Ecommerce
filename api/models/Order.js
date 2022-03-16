@@ -6,6 +6,9 @@ const OrderSchema = new mongoose.Schema(
         products : [
             {
                 _id: { type: String, required: true},
+                title: { type: String, required: true},
+                desc: { type: String, required: true},
+                img: { type: String, required: true},
                 quantity: { type: Number, default: 1, required: true },
                 size: { type: String, required: true},
                 color: { type: String, required: true},

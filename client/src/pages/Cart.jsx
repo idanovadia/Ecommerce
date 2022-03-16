@@ -10,6 +10,7 @@ import StripeCheckout from 'react-stripe-checkout';
 import {userRequest} from "../requestMethods";
 import { useNavigate } from "react-router-dom";
 import { paymentSucceed } from '../redux/cartRedux';
+import { updateLatestOrder } from '../redux/userRedux';
 import { useDispatch } from 'react-redux';
 import ModalEditShipmentAddress from '../components/ModalEditShipmentAddress';
 import { saveOrder } from '../redux/apiCalls';
@@ -176,10 +177,10 @@ const Cart = () => {
                 });
                 dispatch(paymentSucceed());
                 const savedCartRes = await saveOrder(user._id,cart,shipmentAddress);
-                console.log("done");
+                console.log(savedCartRes);
+                dispatch(updateLatestOrder(savedCartRes.data));
                 navigate('/succuss',{data:paymentRes.data});
             }catch(err){
-                console.log(err);
                 throw new Error(err);
             }
         }

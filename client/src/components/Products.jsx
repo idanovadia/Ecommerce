@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { popularProducts } from '../data';
-import Product from './Product';
-import axios from 'axios';
 import { publicRequest } from '../requestMethods';
 import ProductCard from './ProductCard/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { addFillters, addProducts, initSearch } from '../redux/searchRedux';
+import { addProducts, initSearch } from '../redux/searchRedux';
 
 const Container = styled.div`
     padding: 20px;
@@ -44,6 +41,7 @@ const Products = () => {
 
 
   useEffect(() => {
+    console.log("getProducts");
     const getProducts = async () => {
       try{
         if(cat || !myLocation[1]){
@@ -65,6 +63,7 @@ const Products = () => {
   }, [cat,searchInputValue]);
 
   useEffect(() => {
+    console.log("filters");
     filters && products.length > 0 &&
     setShowProducts(
       products.filter((item) => 
@@ -73,10 +72,12 @@ const Products = () => {
         )
       )
     );
-  }, [filters]);
+  }, [filters,sort]);
 
   useEffect(() => {
+    console.log("sort");
     if(sort === "newest"){
+      console.log("newest");
       setShowProducts((prev) => 
         [...prev].sort((a,b) => -1*(new Date(a.createdAt) - new Date(b.createdAt)))
       );
@@ -91,15 +92,15 @@ const Products = () => {
       [...prev].sort((a,b) => b.price - a.price)
       );
     }
-  }, [sort]);
+  }, [sort,filters]);
 
   return (
     <Container>
       <InnerContainer>
         {
            myLocation[1]
-           ? showProducts.map(item => (<ProductCard item={item} key={item._id} />))
-           : showProducts.slice(0,4).map(item => (<ProductCard item={item} key={item._id} />))
+           ? showProducts?.map(item => (<ProductCard item={item} key={item._id} />))
+           : showProducts?.slice(0,4).map(item => (<ProductCard item={item} key={item._id} />))
         }
       </InnerContainer>
     </Container>

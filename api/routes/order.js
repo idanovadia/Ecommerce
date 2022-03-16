@@ -1,5 +1,6 @@
 const { verifyTokenAndAuthorization, verifyTokenAndAdmin, verifyToken } = require("./verifyToken");
 const Order = require("../models/Order");
+const {getOrders} = require("../factuality/order");
 
 const router = require("express").Router();
 
@@ -7,7 +8,7 @@ router.post("/",verifyToken,async(req, res) => {
     const newOrder = new Order(req.body);
     try{
         const savedOrder = await newOrder.save();
-        res.status(201).json("Complete");
+        res.status(201).json(savedOrder);
     } catch(err){
         res.status(500).json(err);
     }
@@ -40,7 +41,7 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req , res ) => {
 
 router.get("/find/:userId", verifyTokenAndAuthorization, async (req , res ) => {
     try{
-        const orders = await Order.find({ userId: req.params.userId });
+        const orders = getOrders(req.params.userId,req.query.type);
         res.status(200).json(orders);
     } catch (err){
         res.status(500).json(err);
