@@ -45,14 +45,18 @@ const Products = () => {
     const getProducts = async () => {
       try{
         if(cat || !myLocation[1]){
+          console.log("getProducts1");
           let res = await publicRequest.get(
             cat ? `/products?category=${cat}` : `/products`);
           dispatch(initSearch(""));
           dispatch(addProducts(res.data));
           setProducts(res.data);
           setShowProducts(res.data);
-        } else if(searchInputValue){
-          const res = await publicRequest.get(`/products/search/${searchInputValue}`);
+        } else{
+          console.log("getProducts2");
+          const res =  searchInputValue 
+            ? await publicRequest.get(`/products/search/${searchInputValue}`)
+            : await publicRequest.get(`/products`)
           dispatch(addProducts(res.data));
           setProducts(res.data);
           setShowProducts(res.data);
