@@ -158,8 +158,8 @@ const Button = styled.button`
 const Cart = () => {
 
     const [stripeToken, setStripeToken] = useState(null);
-    const [cart,setCart] = useState(useSelector(state => state.cart));
-    const [user,setUser] = useState(useSelector(state => state.user.currentUser));
+    const cart = useSelector(state => state.cart);
+    const user = useSelector(state => state.user.currentUser);
     const shipmentAddress = useSelector(state => state.cart.shipmentAddress);
     const navigate = useNavigate();
     const dispatch = useDispatch();

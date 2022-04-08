@@ -1,5 +1,5 @@
 import { loginFailure, loginStart, loginSuccess } from "./userRedux"
-import { publicRequest, userRequest } from "../requestMethods"
+import { publicRequest, userRequest ,updateUser} from "../requestMethods"
 import { addShipmentAddress } from "./cartRedux";
 
 export const login = async ( dispatch, user ) => {
@@ -10,6 +10,7 @@ export const login = async ( dispatch, user ) => {
         dispatch(loginSuccess(res.data));
         dispatch(addShipmentAddress(`${res.data.city}, ${res.data.street}`));
     }catch(err){
+        console.log(err);
         dispatch(loginFailure());
     }
 };
